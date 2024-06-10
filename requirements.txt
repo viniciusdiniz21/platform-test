@@ -1,0 +1,10 @@
+Flask
+Flask-SQLAlchemy
+SQLAlchemy
+psycopg2-binary
+Flask-Migrate
+DateTime
+python-dotenv
+Werkzeug
+Flask-JWT-Extended
+Flask-Cors
