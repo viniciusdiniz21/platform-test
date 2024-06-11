@@ -97,7 +97,7 @@ function Login() {
                 </form>
                 <p className="mt-10 text-center text-sm text-gray-500">
                 Não tem uma conta?{' '}
-                <a href="/registrar" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+                <a href="/cadastrar" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
                     Cadastre-se grátis
                 </a>
                 </p>
