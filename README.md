@@ -1,41 +1,138 @@
-## ![logo](https://www.webrota.com.br/assets/img/logo-min.png)   
+# Documentação da API
+Esta documentação fornece uma visão geral da API REST construída usando Flask, SQLAlchemy e JWT para autenticação. A API permite que os usuários registrem-se, façam login e gerenciem posições com coordenadas de latitude e longitude.
 
-Hey! Seja bem vindo, este é o playground de criatividade da **WebRota**, esse repositório é nossa porta de entrada.
+Modelos
+## Usuario
+Atributos:
 
-## Como funciona?
+id: Integer, Chave Primária
+username: String, Único, Não Nulo
+password_hash: String, Não Nulo
+Métodos:
 
-Faça um fork deste projeto, siga as instruções de desenvolvimento abaixo, aplique sua criatividade e suas técnicas ninja e nos mostre seu código. 
+set_password(self, password): Define a senha criptografada.
+check_password(self, password): Verifica a senha criptografada.
 
-## O que fazer?
+## Position
+Atributos:
+id: Integer, Chave Primária
+date_time: DateTime, Pode ser Nulo
+latitude: String, Não Nulo
+longitude: String, Não Nulo
 
-- Crie uma aplicação simples com conexão à um banco de sua escolha.
-- Implemente autenticação e coloque os usuários no banco.
-- Utilize o arquivo **positions.json** contido nesse repositório e faça um mapa através da API de sua escolha para renderiza-lo, criando marcadores em cada coordenada contida no JSON. Esse arquivo contém uma lista de coordenadas de um trajeto cronológico, seria muito interessante a renderização de uma linha polígono unindo-as.
-- Documente seu código e as instruções de como executa-lo.
+## Informações Adicionais
+Configuração do Banco de Dados: A URL do banco de dados é configurada usando variáveis de ambiente.
+CORS: Cross-Origin Resource Sharing (CORS) está habilitado.
+Autenticação JWT: JWT é usado para proteger certos endpoints, com tokens expirando após 1 dia.
+Inicialização
+Para inicializar o banco de dados e importar dados se necessário, a aplicação verifica se há uma entrada existente na tabela Position e importa dados de um arquivo JSON localizado em ../positions.json se a tabela estiver vazia.
 
-### Bônus level
+## Executando a Aplicação
+Para executar a aplicação, execute o seguinte comando (Certifique-se de ter python instalado em sua máquina):
+pip install -r requirements.txt
+python app.py
 
-- Deixe sua aplicação preparada para containers.
-- Faça sua aplicação atualizar as posições de forma temporizada através do parsing da url de raw do json deste repositório.
-- Exiba a soma da distância dos pontos renderizados.
-- Permita a criação de novos pontos no mapa. 
+## Container Front-end
+Para gerar o container da aplicação frontend basta utilizar o seguinte comando:
+docker compose build
+docker-compose up
 
-## O que devo utilizar?
+## URL Base
+# http://localhost:5000
 
-Nós acreditamos que bons desenvolvedores não são apenas usuários de linguagens ou de frameworks e que estão sempre preparados ao dinamismo. Utilize oque lhe deixar mais confortável e nos mostre seu potencial.
+## Endpoints
+Endpoints de Autenticação
+# Registrar um novo usuário
 
-Bom, não se apegue a essa questão, mas se estiver curioso à respeito de que utilizamos aqui no nosso dia à dia, segue a relação das principais.
+URL: /register
+Método: POST
+Descrição: Registra um novo usuário no sistema.
+## Corpo da requisição
+{
+  "username": "string",
+  "password": "string"
+}
 
-- Python 3+
-- Flask + Marshmallow
-- Bootstrap 4
-- Angular 7
-- MySQL + Redis + RabbitMQ
+Resposta: 
+## 201 Created
+{
+  "message": "Usuário registrado com sucesso!"
+}
 
-## E agora?
+## 400 Bad Request
+{
+  "message": "Usuário já existe!"
+}
 
-Tudo pronto! Faça um pull request ou nos notifique do fork através do e-mail mauro@webrota.com.br
+URL: /login
+Método: POST
+Descrição: Autentica um usuário e retorna um token JWT.
+## Corpo da requisição
+{
+  "username": "string",
+  "password": "string"
+}
+Resposta: 
+## 200 Ok
+{
+  "access_token": "jwt-token"
+}
 
-Vem com a gente! 
+## 401 Unauthorized
+{
+  "message": "Credenciais inválidas."
+}
 
-:)
+## Endpoints de Posição
+Obter todas as posições (com JWT)
+
+URL: /positions
+Método: GET
+Descrição: Recupera todas as posições. Requer autenticação JWT.
+## 200 Ok
+[
+  {
+    "id": "integer",
+    "date_time": "YYYY-MM-DD HH:MM:SS",
+    "latitude": "string",
+    "longitude": "string"
+  },
+  ...
+]
+
+## 404 Not Found
+{
+  "message": "Nenhuma posição encontrada."
+}
+
+Criar uma nova posição
+
+URL: /position
+Método: POST
+Descrição: Cria uma nova posição com a data e hora atual.
+## Corpo da Requisição
+{
+  "latitude": "string",
+  "longitude": "string"
+}
+
+Resposta
+## 201 Created
+{
+  "message": "Posição adicionada!"
+}
+
+# Documentação do front-end
+
+## Executando a Aplicação
+Para executar a aplicação front-end, use o terminal para ir até a pasta frontend e utilize os seguintes comandos (certifique-se de ter node instalado)
+npm install
+npm run dev
+
+## Container Front-end
+Para gerar o container da aplicação frontend basta utilizar o seguinte comando:
+npm run docker-build
+Para rodar o container utilize:
+npm run docker-run
+
+

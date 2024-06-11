@@ -34,7 +34,7 @@ class Usuario(db.Model):
 
 class Position(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    date_time = db.Column(db.DateTime, nullable=False)
+    date_time = db.Column(db.DateTime, nullable=True)
     latitude = db.Column(db.String(20), nullable=False)
     longitude = db.Column(db.String(20), nullable=False)
 
@@ -67,7 +67,7 @@ def index():
 def create_position():
     data = request.get_json()
     new_position = Position(
-        date_time=datetime.strptime(data['date_time'], '%Y-%m-%d %H:%M:%S'),
+        date_time=datetime.today(),
         latitude=data['latitude'],
         longitude=data['longitude']
     )
