@@ -1,19 +1,18 @@
 FROM node:latest as build
+# Defina o diretório de trabalho dentro do contêiner
 WORKDIR /app
-ENV PATH /app/node_modules/bin:$PATH
-COPY package.json .
-COPY web.config .
-RUN npm i
-COPY . .
-## RUN npm run build teste
-## EXPOSE [Port you mentioned in the vite.config file]
-RUN npm run build
 
-FROM nginx:alpine
-WORKDIR /usr/share/nginx/html
-RUN rm -rf ./*
-COPY --from=build /app/dist .
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-# Expose port
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# Copie os arquivos package.json e package-lock.json para o diretório de trabalho
+COPY package*.json ./
+
+# Instale as dependências do projeto
+RUN npm install
+
+# Copie todos os arquivos do projeto para o diretório de trabalho
+COPY . .
+
+# Exponha a porta 3000
+EXPOSE 3000
+
+# Comando para iniciar a aplicação React
+CMD ["npm", "run", "dev"]

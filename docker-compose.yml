@@ -21,6 +21,15 @@ services:
       - POSTGRES_DB=postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
+  react_app:
+    container_name: react_app
+    build:
+      context: ./frontend # substitua pelo caminho real para o diretório do seu app React
+      dockerfile: Dockerfile # supondo que você tenha um Dockerfile configurado para o React
+    ports:
+      - "3000:3000"
+    depends_on:
+      - flask_app
 
 volumes:
   pgdata: {}
