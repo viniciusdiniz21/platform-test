@@ -141,15 +141,15 @@ function Map() {
 
   return (
     <body>
-      <div style={{width:'80vw', margin:'0 auto'}}>
+      <div style={{width:'70vw', margin:'0 auto'}} className='p-4 border-solid border-2 border-indigo-600 rounded-md shadow-lg'>
           <div>
-              <h1 className='inline-block text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200 mb-4'>Localizações</h1>
+              <h1 className='inline-block text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200 mb-4 text-indigo-700'>Localizações</h1>
           </div>
           <div>
-              <h1 className='inline-block text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200 mt-4'>Soma das distâncias entre todos os pontos é {somaDistancia.toFixed(2)} km</h1>
+              <h1 className='inline-block text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200 mb-4'>Soma das distâncias entre todos os pontos é {somaDistancia.toFixed(2)} km</h1>
           </div>
           {!loading ? 
-              <MapContainer center={[-18, -48]} zoom={6} style={{ height: '600px', width: '100%', }}>
+              <MapContainer center={[-18, -48]} zoom={6} style={{ height: '500px', width: '100%', }}>
                   <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
